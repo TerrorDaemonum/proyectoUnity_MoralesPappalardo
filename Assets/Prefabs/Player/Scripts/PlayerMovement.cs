@@ -17,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     [SerializeField] private float intervaloDeTiempo = 2f;
     private Rigidbody rb;
+    /// <summary>
+    /// Indica la velocidad aplicada en el movimiento lateral
+    /// </summary>
+    private float velocidadLateral;
     #endregion
 
     #region Ciclo de Vida del Script
@@ -25,8 +29,15 @@ public class PlayerMovement : MonoBehaviour
         tiempoDesdeUltimaFuerza = 0f;
         rb = GetComponent<Rigidbody>();
         if (rb == null) Debug.LogWarning("Rigidbody no encontrado en el GameObject.");
+        velocidadLateral = 2f;
     }
+    private void Update()
+    {
+        float direccion = Input.GetAxis("Horizontal");
+        transform.Translate(direccion*velocidadLateral*Time.deltaTime,0,0);
 
+    }
+    //Logica para aplicacion de fuerzas
     private void FixedUpdate()
     {
         tiempoDesdeUltimaFuerza += Time.fixedDeltaTime;
