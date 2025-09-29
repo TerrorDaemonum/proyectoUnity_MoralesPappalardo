@@ -21,6 +21,10 @@ public class PlayerMovement : MonoBehaviour
     /// Indica la velocidad aplicada en el movimiento lateral
     /// </summary>
     private float velocidadLateral;
+    /// <summary>
+    /// Representa la estrategia de movimiento a utilizar
+    /// </summary>
+    private IMovementStrategy strategy;
     #endregion
 
     #region Ciclo de Vida del Script
@@ -29,13 +33,12 @@ public class PlayerMovement : MonoBehaviour
         tiempoDesdeUltimaFuerza = 0f;
         rb = GetComponent<Rigidbody>();
         if (rb == null) Debug.LogWarning("Rigidbody no encontrado en el GameObject.");
-        velocidadLateral = 2f;
+        velocidadLateral = 5f;
+        SetStrategy(new MovimientoAcelerado());
     }
     private void Update()
     {
-        float direccion = Input.GetAxis("Horizontal");
-        transform.Translate(direccion*velocidadLateral*Time.deltaTime,0,0);
-
+       strategy.Move(transform,velocidadLateral);
     }
     //Logica para aplicacion de fuerzas
     private void FixedUpdate()
@@ -46,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
             if (rb != null) rb.AddForce(fuerzaPorAplicar, ForceMode.Force);
             tiempoDesdeUltimaFuerza = 0f;
         }
+    }
+    #endregion
+    #region Logica del Script
+    public void SetStrategy(IMovementStrategy strategy)
+    {
+        this.strategy = strategy;
     }
     #endregion
 }
