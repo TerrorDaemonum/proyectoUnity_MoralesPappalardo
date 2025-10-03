@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     /// Representa la estrategia de movimiento a utilizar
     /// </summary>
     private IMovementStrategy strategy;
+    /// <summary>
+    /// Clase Player que contiene datos del jugador
+    /// </summary>
+    private Player playerData;
     #endregion
 
     #region Ciclo de Vida del Script
@@ -34,12 +38,18 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (rb == null) Debug.LogWarning("Rigidbody no encontrado en el GameObject.");
         velocidadLateral = 5f;
+        playerData = new Player(0f, 2f); // velocidad inicial 0, aceleración 2
         SetStrategy(new MovimientoAcelerado());
     }
+
     private void Update()
     {
-       strategy.Move(transform,velocidadLateral);
+        /// <summary>
+        /// Llamada a la estrategia de movimiento, pasando el modelo Player
+        /// </summary>
+        strategy.Move(transform, velocidadLateral, playerData);
     }
+
     //Logica para aplicacion de fuerzas
     private void FixedUpdate()
     {
@@ -51,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     #endregion
+
     #region Logica del Script
     public void SetStrategy(IMovementStrategy strategy)
     {
