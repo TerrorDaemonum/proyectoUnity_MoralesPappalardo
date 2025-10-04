@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MovimientoAcelerado : IMovementStrategy
 {
-    private float velovidadActual = 0f;
-    private float aceleracion = 2f;
+   //private float velovidadActual = 0f;
+   // private float aceleracion = 2f;
 
     public void Move(Transform transform, float speed, Player playerData)
     {
