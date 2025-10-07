@@ -2,9 +2,13 @@ using UnityEngine;
 
 public class MovimientoLateral : IMovementStrategy
 {
-    public void Move(Transform transform, float speed, Player playerData)
+    public void Move(Transform transform,Player player, float direccion)
     {
-        float direccion = Input.GetAxis("Horizontal");
-        transform.Translate(direccion * speed * Time.deltaTime, 0, 0);
+        if (transform == null || player == null) return;
+
+        player.VelocidadActual = direccion * player.Velocidad;
+        transform.Translate(direccion * player.Velocidad * Time.deltaTime, 0, 0);
     }
+
+
 }
